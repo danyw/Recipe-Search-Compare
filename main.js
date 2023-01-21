@@ -1,15 +1,7 @@
 
 const userGridContainer = document.querySelector(".user-grid-container");
 const recipesContainer = document.getElementById("recipes-container");
-
-
-
-
-
-
-    
-    
-
+const submitButtton = document.getElementById("submit-button");
 
 
 
@@ -121,7 +113,7 @@ servingsLi.appendChild(servingsTitle);
 
 const descriptionP = document.createElement('p');
 descriptionP.classList.add('description');
-descriptionP.textContent = description;
+descriptionP.textContent = description.toUpperCase();
 content.appendChild(descriptionP);
 
 const footer = document.createElement('footer');
@@ -136,12 +128,28 @@ footer.appendChild(recipeLink);
 return recipe;
 }
   
-function addRecipeTiles() {
-const recipe = RecipeTile("Recipe", "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600", 30, 8, "1-3", "Its tasty", "https://www.deliciousmagazine.co.uk/recipes/");
-recipesContainer.appendChild(recipe);
-}
-addRecipeTiles();
-addRecipeTiles();
-addRecipeTiles();
-addRecipeTiles();
-addRecipeTiles();
+submitButtton.addEventListener("click", sendAPIRecipeRequest());
+
+
+    async function sendAPIRecipeRequest() {
+        let APP_ID = "6371a87a";
+        let API_KEY = "9ab806ec208f3bb4360874ad2c05212b";
+        let response = await fetch(`https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${API_KEY}`);
+        let data = await response.json();
+        recipesData(data);
+    }
+    function recipesData(data) {
+        let description = `Source`
+        for(let i = 0; i < data.hits.length; i++) {
+            let recipe = data.hits[i].recipe;
+            let recipeTile = RecipeTile(recipe.label, recipe.image, recipe.totalTime, recipe.ingredientLines.length, recipe.yield, recipe.source, recipe.url);
+            recipesContainer.appendChild(recipeTile);
+        }
+    }
+
+
+// function addRecipeTiles() {
+// const recipe = RecipeTile("Recipe", "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600", 30, 8, "1-3", "Its tasty", "https://www.deliciousmagazine.co.uk/recipes/");
+// recipesContainer.appendChild(recipe);
+// }
+// addRecipeTiles();
