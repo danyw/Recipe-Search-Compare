@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Receipe find and compare</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="card.css">
-    <link rel="stylesheet" href="https://anandchowdhary.github.io/ionicons-3-cdn/icons.css" integrity="sha384-+iqgM+tGle5wS+uPwXzIjZS5v6VkqCUV7YQ/e/clzRHAxYbzpUJ+nldylmtBWCP0" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="card.css" />
+    <link
+      rel="stylesheet"
+      href="https://anandchowdhary.github.io/ionicons-3-cdn/icons.css"
+      integrity="sha384-+iqgM+tGle5wS+uPwXzIjZS5v6VkqCUV7YQ/e/clzRHAxYbzpUJ+nldylmtBWCP0"
+      crossorigin="anonymous"
+    />
     <script src="main.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Recipes search and compare</h1>
+      <h1>Recipes search and compare</h1>
     </header>
-   
+
     <div class="container">
-        <div class="search">
-            <form action="">
-                <input type="text" id="search-input" placeholder="e.g. pizza">
-                <input type="submit" value="Submit" id="submit-button">
-            </form>
-        </div>
-        <div class="flex-container" id="recipes-container">
-            <!-- <div class="recipe-card"> -->
-                <!-- <div class="ft-recipe"> 
+      <div class="search">
+        <form action="">
+          <input type="text" id="search-input" placeholder="e.g. pizza" />
+          <input type="submit" value="Submit" id="submit-button" />
+        </form>
+      </div>
+      <div class="flex-container" id="recipes-container">
+        <!-- <div class="recipe-card"> -->
+        <!-- <div class="ft-recipe"> 
                     <div class="ft-recipe__thumb"><span id="close-modal"><i class="ion ion-md-close"></i></span>
                       <h3>Today's Featured Recipe</h3><img src="https://zippypaws.com/app/uploads/2018/05/strawberry-waffles-1024x668.jpg" alt="Strawberry Waffle"/>
                     </div>
@@ -45,18 +50,17 @@
                       <footer class="content__footer"><a href="#">View Recipe</a></footer>
                     </div>
                   </div> -->
-            <!-- </div> -->
+        <!-- </div> -->
+      </div>
+
+      <section id="recipe-details" data-state="OFF">
+        <div class="recipe-info"></div>
+        <div class="ingredients" id="table-container">
+          <div class="ingredients-checklist"></div>
+          <div class="ingredients-prices"></div>
         </div>
-        
-        <section id="recipe-details" data-state="OFF">
-            <div class="recipe-info"></div>
-            <div class="ingredients" id="table-container">
-                <div class="ingredients-checklist"></div>
-                <div class="ingredients-prices"></div>
-            </div>
-        </section>
-        <footer><p>This is my footer</p></footer>
+      </section>
+      <footer><p>This is my footer</p></footer>
     </div>
-    
-</body>
+  </body>
 </html>
