@@ -1,6 +1,23 @@
 const userGridContainer = document.querySelector(".user-grid-container");
 const recipesContainer = document.getElementById("recipes-container");
 const submitButtton = document.getElementById("submit-button");
+const recipeDetails = document.getElementById("recipe-details");
+
+function main() {
+  document.querySelector("form").addEventListener("submit", function (e) {
+    deleteCurrentRecipies();
+    const searchInput = document.querySelector("#search-input");
+    e.preventDefault();
+    sendAPIRecipeRequest(searchInput.value);
+  });
+
+}
+function recipeDetailsClicked() {
+    const tableContainer = document.getElementById("table-container");
+    recipeDetails.setAttribute("data-state", "ON");
+    tableContainer.appendChild(createTable());
+
+}
 
 function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl) {
   const recipe = document.createElement("div");
@@ -120,30 +137,29 @@ function RecipeTile(title, imgUrl, time, ingredients, servings, description, rec
   const recipeLink = document.createElement("a");
   recipeLink.href = recipeUrl;
   recipeLink.textContent = "View Recipe";
+    recipeLink.setAttribute('target','_blank');
   footer.appendChild(recipeLink);
+
+  const recipeLinkDetails = document.createElement("a");
+  recipeLinkDetails.href = "#recipe-details";
+  recipeLinkDetails.textContent = "Details";
+  recipeLinkDetails.onclick = function () {
+    recipeDetailsClicked();
+  }
+    // recipeLink.setAttribute('target','_blank');
+  footer.appendChild(recipeLinkDetails);
 
   return recipe;
 }
 
-// let searchInput = searchInput.value
-document.querySelector("form").addEventListener("submit", function (e) {
-  deleteCurrentRecipies();
-  const searchInput = document.querySelector("#search-input");
-  e.preventDefault();
-  sendAPIRecipeRequest(searchInput.value);
-});
-
-// submitButtton.addEventListener("click", );
-
 async function sendAPIRecipeRequest(search) {
   let APP_ID = "6371a87a";
   let API_KEY = "9ab806ec208f3bb4360874ad2c05212b";
-
-  // let response = await fetch(`https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${API_KEY}`);
   let response = await fetch(`https://api.edamam.com/search?&app_id=${APP_ID}&app_key=${API_KEY}&q=${search}`);
   let data = await response.json();
   recipesData(data);
 }
+
 function recipesData(data) {
   let description = `Source`;
   for (let i = 0; i < data.hits.length; i++) {
@@ -168,8 +184,55 @@ function deleteCurrentRecipies() {
   });
 }
 
-// function addRecipeTiles() {
-// const recipe = RecipeTile("Recipe", "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600", 30, 8, "1-3", "Its tasty", "https://www.deliciousmagazine.co.uk/recipes/");
-// recipesContainer.appendChild(recipe);
-// }
-// addRecipeTiles();
+function createTable() {
+    const table = document.createElement("table");
+  
+    const thead = document.createElement("thead");
+    table.appendChild(thead);
+  
+    const tr = document.createElement("tr");
+    thead.appendChild(tr);
+  
+    const th1 = document.createElement("th");
+    th1.textContent = "Product";
+    tr.appendChild(th1);
+  
+    const th2 = document.createElement("th");
+    th2.textContent = "Tesco";
+    tr.appendChild(th2);
+  
+    const th3 = document.createElement("th");
+    th3.textContent = "Asda";
+    tr.appendChild(th3);
+  
+    const th4 = document.createElement("th");
+    th4.textContent = "Morrisons";
+    tr.appendChild(th4);
+  
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+  
+    const tbodyTr = document.createElement("tr");
+    tbody.appendChild(tbodyTr);
+  
+    const td1 = document.createElement("td");
+    td1.textContent = "Data 1";
+    tbodyTr.appendChild(td1);
+  
+    const td2 = document.createElement("td");
+    td2.textContent = "Data 1";
+    tbodyTr.appendChild(td2);
+  
+    const td3 = document.createElement("td");
+    td3.textContent = "Data 1";
+    tbodyTr.appendChild(td3);
+  
+    const td4 = document.createElement("td");
+    td4.textContent = "Data 1";
+    tbodyTr.appendChild(td4);
+  
+    return table;
+  }
+
+main();
+
