@@ -10,16 +10,41 @@ function main() {
     e.preventDefault();
     sendAPIRecipeRequest(searchInput.value);
   });
-
 }
-function recipeDetailsClicked() {
-    const tableContainer = document.getElementById("table-container");
-    recipeDetails.setAttribute("data-state", "ON");
-    tableContainer.appendChild(createTable());
-
+function nutritionAnalysisData(data) {
+  const tableContainer = document.getElementById("table-container");
+  recipeDetails.setAttribute("data-state", "ON");
+  tableContainer.appendChild(createTable());
+  console.log(data);
 }
 
-function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl) {
+async function sendAPIRecipeRequest(search) {
+  let APP_ID = "6371a87a";
+  let API_KEY = "9ab806ec208f3bb4360874ad2c05212b";
+  let response = await fetch(`https://api.edamam.com/search?&app_id=${APP_ID}&app_key=${API_KEY}&q=${search}`);
+  let data = await response.json();
+  recipesData(data);
+}
+
+async function sendAPINutritionAnalysisRequest(ingredient) {
+  let APP_ID = "dc851d7e";
+  let API_KEY = "73ebff395d8af27738744484e5317740";
+  let response = await fetch(
+    `https://api.edamam.com/api/nutrition-data?&app_id=${APP_ID}&app_key=${API_KEY}&nutrition-type=cooking&ingr=${ingredient}`
+  );
+  let data = await response.json();
+  console.log(data);
+  return data;
+}
+
+function ingredientsPrepare(ingredientList) {
+  ingredientList.forEach(function (ingredient) {
+    const output = sendAPINutritionAnalysisRequest(ingredient);
+    console.log(output);
+  });
+}
+
+function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl, ingredientLines) {
   const recipe = document.createElement("div");
   recipe.classList.add("ft-recipe");
 
@@ -137,27 +162,20 @@ function RecipeTile(title, imgUrl, time, ingredients, servings, description, rec
   const recipeLink = document.createElement("a");
   recipeLink.href = recipeUrl;
   recipeLink.textContent = "View Recipe";
-    recipeLink.setAttribute('target','_blank');
+  recipeLink.setAttribute("target", "_blank");
   footer.appendChild(recipeLink);
 
   const recipeLinkDetails = document.createElement("a");
   recipeLinkDetails.href = "#recipe-details";
   recipeLinkDetails.textContent = "Details";
   recipeLinkDetails.onclick = function () {
-    recipeDetailsClicked();
-  }
-    // recipeLink.setAttribute('target','_blank');
+    // const ingredientLinesText = ingredientLines.join("\n");
+    ingredientsPrepare(ingredientLines);
+  };
+  // recipeLink.setAttribute('target','_blank');
   footer.appendChild(recipeLinkDetails);
 
   return recipe;
-}
-
-async function sendAPIRecipeRequest(search) {
-  let APP_ID = "6371a87a";
-  let API_KEY = "9ab806ec208f3bb4360874ad2c05212b";
-  let response = await fetch(`https://api.edamam.com/search?&app_id=${APP_ID}&app_key=${API_KEY}&q=${search}`);
-  let data = await response.json();
-  recipesData(data);
 }
 
 function recipesData(data) {
@@ -171,7 +189,8 @@ function recipesData(data) {
       recipe.ingredientLines.length,
       recipe.yield,
       recipe.source,
-      recipe.url
+      recipe.url,
+      recipe.ingredientLines
     );
     recipesContainer.appendChild(recipeTile);
   }
@@ -185,54 +204,53 @@ function deleteCurrentRecipies() {
 }
 
 function createTable() {
-    const table = document.createElement("table");
-  
-    const thead = document.createElement("thead");
-    table.appendChild(thead);
-  
-    const tr = document.createElement("tr");
-    thead.appendChild(tr);
-  
-    const th1 = document.createElement("th");
-    th1.textContent = "Product";
-    tr.appendChild(th1);
-  
-    const th2 = document.createElement("th");
-    th2.textContent = "Tesco";
-    tr.appendChild(th2);
-  
-    const th3 = document.createElement("th");
-    th3.textContent = "Asda";
-    tr.appendChild(th3);
-  
-    const th4 = document.createElement("th");
-    th4.textContent = "Morrisons";
-    tr.appendChild(th4);
-  
-    const tbody = document.createElement("tbody");
-    table.appendChild(tbody);
-  
-    const tbodyTr = document.createElement("tr");
-    tbody.appendChild(tbodyTr);
-  
-    const td1 = document.createElement("td");
-    td1.textContent = "Data 1";
-    tbodyTr.appendChild(td1);
-  
-    const td2 = document.createElement("td");
-    td2.textContent = "Data 1";
-    tbodyTr.appendChild(td2);
-  
-    const td3 = document.createElement("td");
-    td3.textContent = "Data 1";
-    tbodyTr.appendChild(td3);
-  
-    const td4 = document.createElement("td");
-    td4.textContent = "Data 1";
-    tbodyTr.appendChild(td4);
-  
-    return table;
-  }
+  const table = document.createElement("table");
+
+  const thead = document.createElement("thead");
+  table.appendChild(thead);
+
+  const tr = document.createElement("tr");
+  thead.appendChild(tr);
+
+  const th1 = document.createElement("th");
+  th1.textContent = "Product";
+  tr.appendChild(th1);
+
+  const th2 = document.createElement("th");
+  th2.textContent = "Tesco";
+  tr.appendChild(th2);
+
+  const th3 = document.createElement("th");
+  th3.textContent = "Asda";
+  tr.appendChild(th3);
+
+  const th4 = document.createElement("th");
+  th4.textContent = "Morrisons";
+  tr.appendChild(th4);
+
+  const tbody = document.createElement("tbody");
+  table.appendChild(tbody);
+
+  const tbodyTr = document.createElement("tr");
+  tbody.appendChild(tbodyTr);
+
+  const td1 = document.createElement("td");
+  td1.textContent = "Data 1";
+  tbodyTr.appendChild(td1);
+
+  const td2 = document.createElement("td");
+  td2.textContent = "Data 1";
+  tbodyTr.appendChild(td2);
+
+  const td3 = document.createElement("td");
+  td3.textContent = "Data 1";
+  tbodyTr.appendChild(td3);
+
+  const td4 = document.createElement("td");
+  td4.textContent = "Data 1";
+  tbodyTr.appendChild(td4);
+
+  return table;
+}
 
 main();
-
