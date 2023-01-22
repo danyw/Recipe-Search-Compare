@@ -112,7 +112,7 @@ a {
 }
 .ft-recipe .ft-recipe__content .content__footer {
   text-align: center;
-  margin: 0 3rem;
+  margin: 0 0.5rem;
 }
 .ft-recipe .ft-recipe__content .content__footer a {
   font-family: var(--headlinesFont);
@@ -131,4 +131,11 @@ a {
 .ft-recipe .ft-recipe__content .content__footer a:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 34px 0 rgba(255, 79, 135, 0.32);
+}
+
+.content__footer {
+    display: flex;
+    margin: none;
+    justify-content: space-between;
+    gap: 1rem;
 }
