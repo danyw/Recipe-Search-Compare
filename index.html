@@ -54,13 +54,54 @@
       </div>
 
       <section id="recipe-details" data-state="OFF">
-        <div class="recipe-info"></div>
-        <div class="ingredients" id="table-container">
-          <div class="ingredients-checklist"></div>
-          <div class="ingredients-prices"></div>
-        </div>
+        <section class="nutrition-info-container">
+            <h2>Nutrition Info</h2>
+            <table>
+              <thead>
+                <tr>
+                  Amount per serving
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th><b>Calories</b></th>
+                  <td id="calories-value"></td>
+                </tr>
+                <tr class="info-small-text">
+                  <td><b>% Daily Value*</b></td>
+                </tr>
+                <tr>
+                  <th colspan="2" id="info-total-fat">
+                    <b>Total Fat</b>
+                  </th>
+                  <td><b id="info-total-fat-percent"></b></td>
+                </tr>
+                <tr>
+                  <th colspan="2" id="info-cholesterol"><b>Cholesterol</b></th>
+                  <td><b id="info-cholesterol-percent"></b></td>
+                </tr>
+                <tr>
+                  <th colspan="2" id="info-sodium"><b>Sodium</b></th>
+                  <td><b id="info-sodium-percent"></b></td>
+                </tr>
+                <tr>
+                  <th colspan="2" id="info-total-carbohydrate"><b>Total Carbohydrate</b></th>
+                  <td><b id="info-total-carbohydrate-percent"></b></td>
+                </tr>
+                <tr>
+                  <th colspan="2" id="info-proteins"><b>Protein</b></th>
+                  <td><b id="info-protein-percent"></b></td>
+                </tr>
+          
+              </tbody>
+            </table>
+            <pre id="response"></pre>
+            <p class="info-small-text">*Percent Daily Values are based on a 2000 calorie diet</p>
+          </section>
       </section>
       <footer><p>This is my footer</p></footer>
     </div>
   </body>
 </html>
+
+

@@ -3,6 +3,9 @@ const recipesContainer = document.getElementById("recipes-container");
 const submitButtton = document.getElementById("submit-button");
 const recipeDetails = document.getElementById("recipe-details");
 
+let recipe = [];
+
+
 function main() {
   document.querySelector("form").addEventListener("submit", function (e) {
     deleteCurrentRecipies();
@@ -26,23 +29,78 @@ async function sendAPIRecipeRequest(search) {
   recipesData(data);
 }
 
-async function sendAPINutritionAnalysisRequest(ingredient) {
+// get 
+async function sendAPINutritionAnalysisRequest(title, servings, ingredientList) {
   let APP_ID = "dc851d7e";
   let API_KEY = "73ebff395d8af27738744484e5317740";
   let response = await fetch(
-    `https://api.edamam.com/api/nutrition-data?&app_id=${APP_ID}&app_key=${API_KEY}&nutrition-type=cooking&ingr=${ingredient}`
+    `https://api.edamam.com/api/nutrition-data?&app_id=${APP_ID}&app_key=${API_KEY}&nutrition-type=cooking&ingr=${ingredientList}`
   );
   let data = await response.json();
   console.log(data);
   return data;
 }
+// POST
 
-function ingredientsPrepare(ingredientList) {
-  ingredientList.forEach(function (ingredient) {
-    const output = sendAPINutritionAnalysisRequest(ingredient);
-    console.log(output);
-  });
-}
+    // Create the XHR object.
+function createCORSRequest(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+      // XHR for Chrome/Firefox/Opera/Safari.
+      xhr.open(method, url, true);
+    } else if (typeof XDomainRequest != "undefined") {
+      // XDomainRequest for IE.
+      xhr = new XDomainRequest();
+      xhr.open(method, url);
+    } else {
+      // CORS not supported.
+      xhr = null;
+    }
+    return xhr;
+  }
+  
+  // Make the actual CORS request.
+  function makeCorsRequest() {
+    let app_id = "dc851d7e";
+    let app_key = "73ebff395d8af27738744484e5317740";    
+    let pre = document.getElementById('response');
+  
+    var url = 'https://api.edamam.com/api/nutrition-details?app_id=' + app_id + '&app_key=' + app_key;
+  
+    var xhr = createCORSRequest('POST', url);
+    if (!xhr) {
+      alert('CORS not supported');
+      return;
+    }
+  
+    // Response handlers.
+    xhr.onload = function() {
+      let response = xhr.responseText;
+      const jsonResponse = JSON.parse(response);
+      pre.innerHTML = "";
+      populateInfoTable(jsonResponse);
+    };
+  
+    xhr.onerror = function() {
+      alert('Woops, there was an error making the request.');
+    };
+  
+    pre.innerHTML = 'Please give it a moment...';
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(recipe);
+  }
+  
+
+  function detailsPrepare(ingredientLines, title, servings) {
+     recipe = JSON.stringify({
+        title: title,
+        yield: servings,
+        ingr: ingredientLines
+     });
+    makeCorsRequest();
+  }
+
+
 
 function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl, ingredientLines) {
   const recipe = document.createElement("div");
@@ -170,7 +228,7 @@ function RecipeTile(title, imgUrl, time, ingredients, servings, description, rec
   recipeLinkDetails.textContent = "Details";
   recipeLinkDetails.onclick = function () {
     // const ingredientLinesText = ingredientLines.join("\n");
-    ingredientsPrepare(ingredientLines);
+    detailsPrepare(ingredientLines);
   };
   // recipeLink.setAttribute('target','_blank');
   footer.appendChild(recipeLinkDetails);
@@ -203,54 +261,63 @@ function deleteCurrentRecipies() {
   });
 }
 
-function createTable() {
-  const table = document.createElement("table");
+// function createTable() {
+//   const table = document.createElement("table");
 
-  const thead = document.createElement("thead");
-  table.appendChild(thead);
+//   const thead = document.createElement("thead");
+//   table.appendChild(thead);
 
-  const tr = document.createElement("tr");
-  thead.appendChild(tr);
+//   const tr = document.createElement("tr");
+//   thead.appendChild(tr);
 
-  const th1 = document.createElement("th");
-  th1.textContent = "Product";
-  tr.appendChild(th1);
+//   const th1 = document.createElement("th");
+//   th1.textContent = "Product";
+//   tr.appendChild(th1);
 
-  const th2 = document.createElement("th");
-  th2.textContent = "Tesco";
-  tr.appendChild(th2);
+//   const th2 = document.createElement("th");
+//   th2.textContent = "Tesco";
+//   tr.appendChild(th2);
 
-  const th3 = document.createElement("th");
-  th3.textContent = "Asda";
-  tr.appendChild(th3);
+//   const th3 = document.createElement("th");
+//   th3.textContent = "Asda";
+//   tr.appendChild(th3);
 
-  const th4 = document.createElement("th");
-  th4.textContent = "Morrisons";
-  tr.appendChild(th4);
+//   const th4 = document.createElement("th");
+//   th4.textContent = "Morrisons";
+//   tr.appendChild(th4);
 
-  const tbody = document.createElement("tbody");
-  table.appendChild(tbody);
+//   const tbody = document.createElement("tbody");
+//   table.appendChild(tbody);
 
-  const tbodyTr = document.createElement("tr");
-  tbody.appendChild(tbodyTr);
+//   const tbodyTr = document.createElement("tr");
+//   tbody.appendChild(tbodyTr);
 
-  const td1 = document.createElement("td");
-  td1.textContent = "Data 1";
-  tbodyTr.appendChild(td1);
+//   const td1 = document.createElement("td");
+//   td1.textContent = "Data 1";
+//   tbodyTr.appendChild(td1);
 
-  const td2 = document.createElement("td");
-  td2.textContent = "Data 1";
-  tbodyTr.appendChild(td2);
+//   const td2 = document.createElement("td");
+//   td2.textContent = "Data 1";
+//   tbodyTr.appendChild(td2);
 
-  const td3 = document.createElement("td");
-  td3.textContent = "Data 1";
-  tbodyTr.appendChild(td3);
+//   const td3 = document.createElement("td");
+//   td3.textContent = "Data 1";
+//   tbodyTr.appendChild(td3);
 
-  const td4 = document.createElement("td");
-  td4.textContent = "Data 1";
-  tbodyTr.appendChild(td4);
+//   const td4 = document.createElement("td");
+//   td4.textContent = "Data 1";
+//   tbodyTr.appendChild(td4);
 
-  return table;
+//   return table;
+// }
+function populateInfoTable(jsonResponse) {
+  let kal = jsonResponse.calories;
+  console.log(kal);
+// TODO: populate info table
+  // let kcal = document.getElementById("calories-value");
+  // kcal.textContent = infoTableData.calories;
+  // kcal.appendChild(kcal);
 }
 
 main();
+
