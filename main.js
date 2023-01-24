@@ -2,34 +2,20 @@ const userGridContainer = document.querySelector(".user-grid-container");
 const recipesContainer = document.getElementById("recipes-container");
 const submitButtton = document.getElementById("submit-button");
 const recipeDetails = document.getElementById("recipe-details");
+const backgroundPicture = document.getElementById("background-picture");
 
 let recipe = [];
-
-
-function main() {
-  document.querySelector("form").addEventListener("submit", function (e) {
-    deleteCurrentRecipies();
-    const searchInput = document.querySelector("#search-input");
-    e.preventDefault();
-    sendAPIRecipeRequest(searchInput.value);
-  });
-}
-function nutritionAnalysisData(data) {
-  const tableContainer = document.getElementById("table-container");
-  recipeDetails.setAttribute("data-state", "ON");
-  tableContainer.appendChild(createTable());
-  console.log(data);
-}
 
 async function sendAPIRecipeRequest(search) {
   let APP_ID = "6371a87a";
   let API_KEY = "9ab806ec208f3bb4360874ad2c05212b";
   let response = await fetch(`https://api.edamam.com/search?&app_id=${APP_ID}&app_key=${API_KEY}&q=${search}`);
   let data = await response.json();
+  console.log(data);
   recipesData(data);
 }
 
-// get 
+// get
 async function sendAPINutritionAnalysisRequest(title, servings, ingredientList) {
   let APP_ID = "dc851d7e";
   let API_KEY = "73ebff395d8af27738744484e5317740";
@@ -40,69 +26,66 @@ async function sendAPINutritionAnalysisRequest(title, servings, ingredientList) 
   console.log(data);
   return data;
 }
-// POST
 
-    // Create the XHR object.
+// Create the XHR object.
 function createCORSRequest(method, url) {
-    var xhr = new XMLHttpRequest();
-    if ("withCredentials" in xhr) {
-      // XHR for Chrome/Firefox/Opera/Safari.
-      xhr.open(method, url, true);
-    } else if (typeof XDomainRequest != "undefined") {
-      // XDomainRequest for IE.
-      xhr = new XDomainRequest();
-      xhr.open(method, url);
-    } else {
-      // CORS not supported.
-      xhr = null;
-    }
-    return xhr;
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
   }
-  
-  // Make the actual CORS request.
-  function makeCorsRequest() {
-    let app_id = "dc851d7e";
-    let app_key = "73ebff395d8af27738744484e5317740";    
-    let pre = document.getElementById('response');
-  
-    var url = 'https://api.edamam.com/api/nutrition-details?app_id=' + app_id + '&app_key=' + app_key;
-  
-    var xhr = createCORSRequest('POST', url);
-    if (!xhr) {
-      alert('CORS not supported');
-      return;
-    }
-  
-    // Response handlers.
-    xhr.onload = function() {
-      let response = xhr.responseText;
-      const jsonResponse = JSON.parse(response);
-      pre.innerHTML = "";
-      populateInfoTable(jsonResponse);
-    };
-  
-    xhr.onerror = function() {
-      alert('Woops, there was an error making the request.');
-    };
-  
-    pre.innerHTML = 'Please give it a moment...';
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(recipe);
-  }
-  
+  return xhr;
+}
 
-  function detailsPrepare(ingredientLines, title, servings) {
-     recipe = JSON.stringify({
-        title: title,
-        yield: servings,
-        ingr: ingredientLines
-     });
-    makeCorsRequest();
+// Make the actual CORS request.
+function makeCorsRequest() {
+  let app_id = "dc851d7e";
+  let app_key = "73ebff395d8af27738744484e5317740";
+  let pre = document.getElementById("response");
+
+  var url = "https://api.edamam.com/api/nutrition-details?app_id=" + app_id + "&app_key=" + app_key;
+
+  var xhr = createCORSRequest("POST", url);
+  if (!xhr) {
+    alert("CORS not supported");
+    return;
   }
 
+  // Response handlers.
+  xhr.onload = function () {
+    let response = xhr.responseText;
+    const jsonResponse = JSON.parse(response);
+    pre.innerHTML = "";
+    populateInfoTable(jsonResponse);
+  };
 
+  xhr.onerror = function () {
+    alert("Woops, there was an error making the request.");
+  };
 
-function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl, ingredientLines) {
+  pre.innerHTML = "Please give it a moment...";
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(recipe);
+}
+
+function detailsPrepare(ingredientLines, title, servings) {
+  recipe = JSON.stringify({
+    title: title,
+    yield: servings,
+    ingr: ingredientLines,
+  });
+  recipeDetails.setAttribute("data-state", "ON");
+  makeCorsRequest();
+}
+
+function RecipeTile(title, imgUrl, time, ingredients, servings, description, recipeUrl, ingredientLines, mealType) {
   const recipe = document.createElement("div");
   recipe.classList.add("ft-recipe");
 
@@ -119,7 +102,7 @@ function RecipeTile(title, imgUrl, time, ingredients, servings, description, rec
   closeModal.appendChild(closeModalIcon);
 
   const h3 = document.createElement("h3");
-  h3.textContent = "Today's Featured Recipe";
+  h3.textContent = mealType;
   thumb.appendChild(h3);
 
   const img = document.createElement("img");
@@ -226,13 +209,11 @@ function RecipeTile(title, imgUrl, time, ingredients, servings, description, rec
   const recipeLinkDetails = document.createElement("a");
   recipeLinkDetails.href = "#recipe-details";
   recipeLinkDetails.textContent = "Details";
-  recipeLinkDetails.onclick = function () {
-    // const ingredientLinesText = ingredientLines.join("\n");
+  recipeLinkDetails.onclick = function (event) {
+    event.preventDefault();
     detailsPrepare(ingredientLines);
   };
-  // recipeLink.setAttribute('target','_blank');
   footer.appendChild(recipeLinkDetails);
-
   return recipe;
 }
 
@@ -248,7 +229,8 @@ function recipesData(data) {
       recipe.yield,
       recipe.source,
       recipe.url,
-      recipe.ingredientLines
+      recipe.ingredientLines,
+      recipe.mealType
     );
     recipesContainer.appendChild(recipeTile);
   }
@@ -261,63 +243,40 @@ function deleteCurrentRecipies() {
   });
 }
 
-// function createTable() {
-//   const table = document.createElement("table");
-
-//   const thead = document.createElement("thead");
-//   table.appendChild(thead);
-
-//   const tr = document.createElement("tr");
-//   thead.appendChild(tr);
-
-//   const th1 = document.createElement("th");
-//   th1.textContent = "Product";
-//   tr.appendChild(th1);
-
-//   const th2 = document.createElement("th");
-//   th2.textContent = "Tesco";
-//   tr.appendChild(th2);
-
-//   const th3 = document.createElement("th");
-//   th3.textContent = "Asda";
-//   tr.appendChild(th3);
-
-//   const th4 = document.createElement("th");
-//   th4.textContent = "Morrisons";
-//   tr.appendChild(th4);
-
-//   const tbody = document.createElement("tbody");
-//   table.appendChild(tbody);
-
-//   const tbodyTr = document.createElement("tr");
-//   tbody.appendChild(tbodyTr);
-
-//   const td1 = document.createElement("td");
-//   td1.textContent = "Data 1";
-//   tbodyTr.appendChild(td1);
-
-//   const td2 = document.createElement("td");
-//   td2.textContent = "Data 1";
-//   tbodyTr.appendChild(td2);
-
-//   const td3 = document.createElement("td");
-//   td3.textContent = "Data 1";
-//   tbodyTr.appendChild(td3);
-
-//   const td4 = document.createElement("td");
-//   td4.textContent = "Data 1";
-//   tbodyTr.appendChild(td4);
-
-//   return table;
-// }
 function populateInfoTable(jsonResponse) {
-  let kal = jsonResponse.calories;
-  console.log(kal);
-// TODO: populate info table
-  // let kcal = document.getElementById("calories-value");
-  // kcal.textContent = infoTableData.calories;
-  // kcal.appendChild(kcal);
+  let calories = document.getElementById("calories-value");
+  calories.textContent = jsonResponse.calories.toFixed(1);
+
+  let totalFat = document.getElementById("total-fat-value");
+  let totalFatPercent = document.getElementById("total-fat-percent");
+  totalFat.textContent = jsonResponse.totalNutrients.FAT.quantity.toFixed(1);
+  totalFatPercent.textContent = jsonResponse.totalDaily.FAT.quantity.toFixed(0);
+
+  let cholersterol = document.getElementById("cholersterol-value");
+  let cholersterolPercent = document.getElementById("cholersterol-percent");
+  cholersterol.textContent = jsonResponse.totalNutrients.CHOLE.quantity.toFixed(1);
+  cholersterolPercent.textContent = jsonResponse.totalDaily.CHOLE.quantity.toFixed(0);
+
+  let sodium = document.getElementById("sodium-value");
+  let sodiumPercent = document.getElementById("sodium-percent");
+  sodium.textContent = jsonResponse.totalNutrients.NA.quantity.toFixed(1);
+  sodiumPercent.textContent = jsonResponse.totalDaily.NA.quantity.toFixed(0);
+
+  let totalCarbs = document.getElementById("total-carbs-value");
+  let totalCarbsPercent = document.getElementById("total-carbs-percent");
+  totalCarbs.textContent = jsonResponse.totalNutrients.CHOCDF.quantity.toFixed(1);
+  totalCarbsPercent.textContent = jsonResponse.totalDaily.CHOCDF.quantity.toFixed(0);
+
+  let protein = document.getElementById("protein-value");
+  let proteinPercent = document.getElementById("protein-percent");
+  protein.textContent = jsonResponse.totalNutrients.PROCNT.quantity.toFixed(1);
+  proteinPercent.textContent = jsonResponse.totalDaily.PROCNT.quantity.toFixed(0);
 }
 
-main();
-
+document.querySelector("form").addEventListener("submit", function (e) {
+  deleteCurrentRecipies();
+  const searchInput = document.querySelector("#search-input");
+  backgroundPicture.setAttribute("data-background", "OFF");
+  e.preventDefault();
+  sendAPIRecipeRequest(searchInput.value);
+});

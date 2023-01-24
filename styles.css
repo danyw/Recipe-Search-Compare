@@ -4,6 +4,7 @@
   --headlinesFont: "Jost", sans-serif;
   --bodyFont: "Work Sans", sans-serif;
   --wildWatermelon: #ff4f87;
+
   --fuelYellow: #f0a035;
   --textColor: #323232;
   --bodyBg: #d6d6d6;
@@ -24,42 +25,153 @@ body {
 }
 
 * {
-  /* box-sizing: inherit; */
+  box-sizing: inherit;
   padding: none;
   margin: none;
 }
 
-header {
-  /* display: flex; */
+.header {
+  text-align: center;
+  font-size: 1.1rem;
+  font-family: --headlinesFont;
+  color: var(--wildWatermelon);
+  border-bottom: 0.2rem solid var(--wildWatermelon);
+  margin: 0.5rem auto;
+  max-width: 100vh;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 .flex-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
-
-  width: 100%;
   max-width: 1200px;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   flex-wrap: wrap;
+  margin: 1rem auto;
 }
-.recipe-card {
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: auto;
+  margin: 0 auto;
+}
+
+.search {
+  margin: 1rem auto 2rem auto;
+  text-align: center;
+}
+
+#background-picture[data-background="ON"] img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+}
+
+#background-picture[data-background="OFF"] {
   display: none;
 }
 
-.recipe-details[data-state="OFF"] {
+#recipe-details[data-state="OFF"] {
   display: none;
 }
 
-.recipe-details[data-state="ON"] {
+#recipe-details[data-state="ON"] {
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: var(--recipeDetailsBG);
+  height: auto;
+  width: 400px;
+}
+
+/** Info Table styling */
+
+.nutrition-info-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.2rem;
+  position: sticky;
+  top: 3rem;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  border: 0.1rem solid var(--wildWatermelon);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.1rem var(--black);
+  height: fit-content;
+  width: 340px;
+}
+
+.nutrition-info-container h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.nutrition-info-container h3 {
+  font-size: 1.2rem;
+  font-weight: 300;
+  border-bottom: 0.2rem solid var(--recipeDetailsBG);
+}
+
+.nutrition-info-container th {
+  padding-right: 2rem;
+  font-weight: 100;
+}
+
+.small-right-text {
+  font-size: 0.7rem;
+}
+
+.nutrition-info-container td {
+  text-align: end;
+}
+
+.table-calories {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--wildWatermelon);
+}
+
+.info-small-text {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--textColor);
+  font-style: italic;
+}
+
+/** Footer */
+.main-footer {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--textColor);
+  margin: 1rem auto;
+  border-top: 0.2rem solid var(--wildWatermelon);
+  max-width: 100vh;
+}
+
+.main-footer a {
+  color: var(--wildWatermelon);
+  font-weight: 500;
+}
+.main-footer a:hover {
+  opacity: 0.7;
+}
+
+/** Responsive Design */
+@media screen and (max-width: 800px) {
+  .flex-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    margin: 0 auto;
+    align-items: center;
+  }
 }
