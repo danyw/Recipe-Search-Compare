@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Receipe find and compare</title>
+    <title>Recipe find and compare</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="card.css" />
     <link
@@ -16,18 +16,23 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <header>
+    <header class="header">
       <h1>Recipes search and compare</h1>
     </header>
-
-    <div class="container">
-      <div class="search">
-        <form action="">
-          <input type="text" id="search-input" placeholder="e.g. pizza" />
-          <input type="submit" value="Submit" id="submit-button" />
-        </form>
-      </div>
+    <section class="search">
+      <form action="">
+        <input type="text" id="search-input" placeholder="e.g. pizza" />
+        <input type="submit" value="Submit" id="submit-button" />
+      </form>
+    </section>
+    <main>
       <div class="flex-container" id="recipes-container">
+        <div id="background-picture" data-background="ON">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            alt="background food picture"
+          />
+        </div>
         <!-- <div class="recipe-card"> -->
         <!-- <div class="ft-recipe"> 
                     <div class="ft-recipe__thumb"><span id="close-modal"><i class="ion ion-md-close"></i></span>
@@ -52,56 +57,57 @@
                   </div> -->
         <!-- </div> -->
       </div>
-
-      <section id="recipe-details" data-state="OFF">
+      <aside id="recipe-details" data-state="OFF">
         <section class="nutrition-info-container">
-            <h2>Nutrition Info</h2>
-            <table>
-              <thead>
-                <tr>
-                  Amount per serving
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th><b>Calories</b></th>
-                  <td id="calories-value"></td>
-                </tr>
-                <tr class="info-small-text">
-                  <td><b>% Daily Value*</b></td>
-                </tr>
-                <tr>
-                  <th colspan="2" id="info-total-fat">
-                    <b>Total Fat</b>
-                  </th>
-                  <td><b id="info-total-fat-percent"></b></td>
-                </tr>
-                <tr>
-                  <th colspan="2" id="info-cholesterol"><b>Cholesterol</b></th>
-                  <td><b id="info-cholesterol-percent"></b></td>
-                </tr>
-                <tr>
-                  <th colspan="2" id="info-sodium"><b>Sodium</b></th>
-                  <td><b id="info-sodium-percent"></b></td>
-                </tr>
-                <tr>
-                  <th colspan="2" id="info-total-carbohydrate"><b>Total Carbohydrate</b></th>
-                  <td><b id="info-total-carbohydrate-percent"></b></td>
-                </tr>
-                <tr>
-                  <th colspan="2" id="info-proteins"><b>Protein</b></th>
-                  <td><b id="info-protein-percent"></b></td>
-                </tr>
-          
-              </tbody>
-            </table>
-            <pre id="response"></pre>
-            <p class="info-small-text">*Percent Daily Values are based on a 2000 calorie diet</p>
-          </section>
-      </section>
-      <footer><p>This is my footer</p></footer>
-    </div>
+          <h2>Nutrition Info</h2>
+          <table>
+            <thead>
+              <tr>
+                <h3>Amount per serving</h3>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-calories">
+                <th colspan="2"><b>Calories</b></th>
+                <td id="calories-value"></td>
+              </tr>
+              <tr>
+                <th colspan="2"></th>
+                <td class="small-right-text">% Daily Value*</td>
+                <!-- <td><b class="small-right-text">% Daily Value*</b></td> -->
+              </tr>
+              <tr>
+                <th colspan="2" id="info-total-fat"><b>Total Fat </b><span id="total-fat-value"></span><span> g</span></th>
+
+                <td><b id="total-fat-percent"></b><span> %</span></td>
+              </tr>
+              <tr>
+                <th colspan="2" id="info-cholesterol"><b>Cholesterol </b> <span id="cholersterol-value"></span><span> mg</span></th>
+                <td><b id="cholersterol-percent"></b><span> %</span></td>
+              </tr>
+              <tr>
+                <th colspan="2" id="info-sodium"><b>Sodium </b><span id="sodium-value"></span><span> mg</span></th>
+                <td><b id="sodium-percent"></b><span> %</span></td>
+              </tr>
+              <tr>
+                <th colspan="2" id="info-total-carbohydrate">
+                  <b>Total Carbohydrate </b><span id="total-carbs-value"></span><span> g</span>
+                </th>
+                <td><b id="total-carbs-percent"></b><span> %</span></td>
+              </tr>
+              <tr>
+                <th colspan="2" id="info-proteins"><b>Protein </b><span id="protein-value"></span><span> g</span></th>
+                <td><b id="protein-percent"></b><span> %</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <pre id="response"></pre>
+          <p class="info-small-text">*Percent Daily Values are based on a 2000 calorie diet</p>
+        </section>
+      </aside>
+    </main>
+    <footer class="main-footer">
+      <p>The source code can be found <a href="https://github.com/danyw/Recipe-Search-Compare"> here</a></p>
+    </footer>
   </body>
 </html>
-
-

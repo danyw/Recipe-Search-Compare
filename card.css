@@ -1,4 +1,3 @@
-
 .container .grid-container .meal-card .ft-recipe img {
   vertical-align: text-bottom;
 }
@@ -20,14 +19,14 @@ a {
   right: 50%;
   bottom: 50%;
   left: 50%;
-  /* position: absolute; */
-  /* transform: translate(-50%, -50%); */
 }
+
 .ft-recipe .ft-recipe__thumb {
   position: relative;
   height: 281px;
   box-shadow: 0px 0px 130px 0 rgba(0, 0, 0, 0.38);
 }
+
 .ft-recipe .ft-recipe__thumb #close-modal {
   position: absolute;
   top: 0;
@@ -43,10 +42,12 @@ a {
   z-index: 1;
   transition: all 200ms ease;
 }
+
 .ft-recipe .ft-recipe__thumb #close-modal:hover {
   background: transparent;
   color: var(--black);
 }
+
 .ft-recipe .ft-recipe__thumb h3 {
   text-align: center;
   position: absolute;
@@ -59,37 +60,41 @@ a {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), transparent);
   padding: 2.4rem 0 0;
 }
+
 .ft-recipe .ft-recipe__thumb img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   -o-object-position: 50% 50%;
-     object-position: 50% 50%;
+  object-position: 50% 50%;
 }
+
 .ft-recipe .ft-recipe__content {
   flex: 1;
   padding: 0 2em 1em;
 }
+
 .ft-recipe .ft-recipe__content .content__header .row-wrapper {
   display: flex;
   padding: 0.55em 0 0.3em;
   border-bottom: 1px solid #d8d8d8;
 }
+
 .ft-recipe .ft-recipe__content .content__header .row-wrapper .recipe-title {
   font-family: var(--headlinesFont);
   font-weight: 600;
 }
+
 .ft-recipe .ft-recipe__content .content__header .recipe-details {
   display: flex;
+  flex-direction: row;
   list-style: none;
-  padding: 1.4em 0 1em;
+  padding: 1.3em 0 1em 0;
   margin: 0;
   justify-content: space-between;
 }
-.ft-recipe .ft-recipe__content .content__header .recipe-details .recipe-details-item {
-  flex: 1;
-}
+
 .ft-recipe .ft-recipe__content .content__header .recipe-details .recipe-details-item i {
   font-size: 30px;
 }
@@ -100,6 +105,7 @@ a {
   font-size: 24px;
   font-weight: 600;
 }
+
 .ft-recipe .ft-recipe__content .content__header .recipe-details .recipe-details-item .title {
   display: block;
   margin-top: -4px;
@@ -107,13 +113,16 @@ a {
   font-size: 21px;
   font-weight: 300;
 }
+
 .ft-recipe .ft-recipe__content .description {
   margin: 0.3em 0 1.8em;
 }
+
 .ft-recipe .ft-recipe__content .content__footer {
   text-align: center;
   margin: 0 0.5rem;
 }
+
 .ft-recipe .ft-recipe__content .content__footer a {
   font-family: var(--headlinesFont);
   display: inline-block;
@@ -128,14 +137,15 @@ a {
   font-size: 17px;
   transition: transform 250ms ease, box-shadow 250ms ease;
 }
+
 .ft-recipe .ft-recipe__content .content__footer a:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 34px 0 rgba(255, 79, 135, 0.32);
 }
 
 .content__footer {
-    display: flex;
-    margin: none;
-    justify-content: space-between;
-    gap: 1rem;
+  display: flex;
+  margin: none;
+  justify-content: space-between;
+  gap: 1rem;
 }
